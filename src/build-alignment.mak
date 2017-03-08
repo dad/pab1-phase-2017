@@ -1,17 +1,13 @@
-# In shell:
-# > echo $PYTHONEXE
-# python
-PY = $$PYTHONEXE
-RSCRIPT = $$RSCRIPT
+PY = python
 DATA = ../data
-FIG = ../figures
-TMP = ../../../../tmp
 LIB = ../../base/src
 
-PABP_FINAL = $(DATA)/alignment/pabp-smart-orthologs-aligned-trimmed.fa
-BASE_FASTA = $(DATA)/pabp-smart-orthologs-aligned-trimmed.fa
 PHYLO_DATA = $(DATA)
+PABP_FINAL = $(PHYLO_DATA)/alignment/pabp-smart-orthologs-aligned-trimmed.fa
+BASE_FASTA = $(PHYLO_DATA)/pabp-smart-orthologs-aligned-trimmed.fa
 SORTED_FASTA = $(PHYLO_DATA)/pabp-sorted.fa
+
+all: filter-and-align create-sorted extract-region calculate-frequencies
 
 # This command takes a raw unaligned FASTA file, removes partial sequences,
 # aligns the sequences, then trims to make an alignment with 
@@ -39,7 +35,7 @@ extract-species:
 	$(PY) extract-species-ids.py $(BASE_FASTA) --out $(PHYLO_DATA)/species-ids.txt
 
 fetch-classifications:
-	"$$RSCRIPT" normalize-species.R $(PHYLO_DATA)/species-ids.txt $(PHYLO_DATA)/class
+	Rscript normalize-species.R $(PHYLO_DATA)/species-ids.txt $(PHYLO_DATA)/class
 
 build-tree:
 	$(PY) build-tree.py $(PHYLO_DATA)/class/guide.txt --out $(PHYLO_DATA)/pabp-tree.txt
@@ -62,29 +58,11 @@ pabpretty:
 extract-region:
 	$(PY) $(LIB)/extract-aligned-region.py $(SORTED_FASTA) --query cerevisiae \
 		--start-sequence YQQATAAAAAAAAGMP --end-sequence ANDNNQFYQ \
-		--fasta-out $(PHYLO_DATA)/hypr.fa
+		--fasta-out $(PHYLO_DATA)/pab-pdomain.fa
 	$(PY) $(LIB)/extract-aligned-region.py $(SORTED_FASTA) --query cerevisiae \
 		--start-sequence YQQATAAAAAAAAGMP --end-sequence ANDNNQFYQ --exclude \
-		--fasta-out $(PHYLO_DATA)/non-hypr.fa
+		--fasta-out $(PHYLO_DATA)/pab-non-pdomain.fa
 
-filter-extracted:
-	$(PY) filter-jointly.py --
-
-compute-hydrophobicity:
-	$(PY) compute-hydrophobicity.py $(PHYLO_DATA)/hypr.fa --tree $(PHYLO_DATA)/pabp-tree.txt \
-		--scale Hopp-Woods --randomize --reps 1 --out $(PHYLO_DATA)/pabp-hypr-all-hydro.txt
-	$(PY) compute-hydrophobicity.py $(PHYLO_DATA)/hypr.fa --tree $(PHYLO_DATA)/pabp-tree.txt \
-		--aas ILMVA --scale Hopp-Woods --randomize --reps 1 --out $(PHYLO_DATA)/pabp-hypr-ILMVA-hydro.txt
-	$(PY) compute-hydrophobicity.py $(PHYLO_DATA)/hypr.fa --tree $(PHYLO_DATA)/pabp-tree.txt \
-		--phylo-node Chordata --scale Hopp-Woods --randomize --reps 1 --out $(PHYLO_DATA)/pabp-hypr-chordata-all-hydro.txt
-	$(PY) compute-hydrophobicity.py $(PHYLO_DATA)/hypr.fa --tree $(PHYLO_DATA)/pabp-tree.txt \
-		--phylo-node Fungi --scale Hopp-Woods --randomize --reps 1 --out $(PHYLO_DATA)/pabp-hypr-fungi-all-hydro.txt
-	$(PY) compute-hydrophobicity.py $(PHYLO_DATA)/hypr.fa --tree $(PHYLO_DATA)/pabp-tree.txt \
-		--phylo-node Chordata --aas ILMVA --scale Hopp-Woods --randomize --reps 1 --out $(PHYLO_DATA)/pabp-hypr-chordata-ILMVA-hydro.txt
-	$(PY) compute-hydrophobicity.py $(PHYLO_DATA)/hypr.fa --tree $(PHYLO_DATA)/pabp-tree.txt \
-		--phylo-node Fungi --aas ILMVA --scale Hopp-Woods --randomize --reps 1 --out $(PHYLO_DATA)/pabp-hypr-fungi-ILMVA-hydro.txt
-
-prop:
-	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/hypr.fa --aas ILMVA --out $(PHYLO_DATA)/ILMVA-freqs.txt
-	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/hypr.fa --aas all --out $(PHYLO_DATA)/hypr-freqs.txt
-	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/non-hypr.fa --aas all --out $(PHYLO_DATA)/non-hypr-freqs.txt
+calculate-frequencies:
+	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/pab-pdomain.fa --aas all --out $(PHYLO_DATA)/pab-pdomain-freqs.txt
+	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/pab-non-pdomain.fa --aas all --out $(PHYLO_DATA)/pab-non-pdomain-freqs.txt
