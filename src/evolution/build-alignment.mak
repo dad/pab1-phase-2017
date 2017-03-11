@@ -59,13 +59,13 @@ pabpretty:
 extract-region:
 	$(PY) $(LIB)/extract-aligned-region.py $(SORTED_FASTA) --query cerevisiae \
 		--start-sequence YQQATAAAAAAAAGMP --end-sequence ANDNNQFYQ \
-		--fasta-out $(PHYLO_DATA)/pab-pdomain.fa
+		--fasta-out $(PHYLO_DATA)/pabp-pdomain.fa
 	$(PY) $(LIB)/extract-aligned-region.py $(SORTED_FASTA) --query cerevisiae \
 		--start-sequence YQQATAAAAAAAAGMP --end-sequence ANDNNQFYQ --exclude \
-		--fasta-out $(PHYLO_DATA)/pab-non-pdomain.fa
+		--fasta-out $(PHYLO_DATA)/pabp-non-pdomain.fa
 
 # Calculate amino acid frequencies.
 calculate-frequencies:
-	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/pab-pdomain.fa --aas all --out $(PHYLO_DATA)/pabp-pdomain-freqs.txt
-	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/pab-non-pdomain.fa --aas all --out $(PHYLO_DATA)/pabp-non-pdomain-freqs.txt
+	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/pabp-pdomain.fa --aas all --out $(PHYLO_DATA)/pabp-pdomain-freqs.txt
+	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/pabp-non-pdomain.fa --aas all --out $(PHYLO_DATA)/pabp-non-pdomain-freqs.txt
 	$(PY) $(LIB)/protprop.py --in $(PHYLO_DATA)/disprot-v6.02.fasta --aas all --out $(PHYLO_DATA)/disprot-aa-freqs.txt
