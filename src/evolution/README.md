@@ -14,9 +14,13 @@ Outline of steps:
 6. Extract the aligned regions corresponding to the proline-rich domain and everything else.
 7. Calculate residue frequencies in these regions.
 
-<!--## For DisProt-->
+## For DisProt
+1. 
 
-<!--## For the yeast proteome.-->
+## For the yeast proteome
+
+#
+
 
 The makefile `build-alignment.mak` contains commands for each of these steps.
 
@@ -30,6 +34,7 @@ git clone git@github.com:dad/base.git
 and add `<your-dir>/base/src` to your PYTHONPATH. `<your-dir>` should be the directory in which `pab1-phase-2017` is also contained, if you wish to use the Makefile.
 
 Also required: 
-1. [R](http://r-project.org) with the `taxize` package, for tree-building.
+
+1. [R](http://r-project.org) with the `taxize` package, for tree-building, `ggplot2` and `cowplot` for plotting, `data.table` 
 1. [MUSCLE](http://www.drive5.com/muscle/) alignment software 
 

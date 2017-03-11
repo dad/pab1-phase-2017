@@ -19,8 +19,6 @@ My algorithm:
 - starting with batches of size n sequences
 	- compute pairwise similarity
 	- for any sequences with sim > threshold, remove the one with highest mean similarity to others
-- 
-
 '''
 
 # Get species name from SMART FASTA header

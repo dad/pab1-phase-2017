@@ -7,6 +7,9 @@
 # Set working directory to the pab1-phase-2017/src/evolution/ directory
 # E.g. setwd("~/research/pab1-phase-2017/src/evolution/")
 
+
+library(Hmisc)
+library(ggplot2)
 library(reshape2)
 library(cowplot)
 library(data.table)
@@ -16,15 +19,20 @@ output.type = 'svg'
 
 data.dir <- '../../data'
 figures.dir <- '../../data'
+# github.com/dad/base
+base.dir <- '../../../base'
+
+pdir <- function(dirname, filename) {
+	paste(dirname, filename, sep='/')
+}
+
+source(pdir(base.dir, "stat-lib.R"))
 
 load.data = T
 fig.pab1.aa.composition = T
 fig.pab1.aa.hydrophobicity = T
 fig.pabp.length.distribution = T
 fig.all = T
-
-all.aas = charlist('ACDEFGHIKLMNPQRSTVWY')
-aas = as.character(all.aas)
 
 stderr.nona <- function(x) {
 	res <- sderr(x)
@@ -34,10 +42,8 @@ stderr.nona <- function(x) {
 	res
 }
 
-pdir <- function(dirname, filename) {
-	paste(dirname, filename, sep='/')
-}
-
+all.aas = charlist('ACDEFGHIKLMNPQRSTVWY')
+aas = as.character(all.aas)
 # Colors
 cols <- c(P="#000000ff", dP="#781c86ff", disprot="#56B4E9ff", all='#E69F00ff', dP.all="#781c86ff",P.all="#000000ff")
 
@@ -56,7 +62,7 @@ if (load.data) {
 # Fig. 4B in Riback/Katanski et al.
 if (fig.pab1.aa.composition) {
 
-	aas <- as.character(charlist('ACDEFGHIKLMNPQRSTVWY'))
+	aas <- as.character(all.aas)
 	f <- p.0("f",aas)
 	d <- list("P"=xp[,f], "dP"=xdp[,f], "disprot"=xdis[,f], "all"=xall[,f])
 
@@ -143,13 +149,12 @@ if (fig.pab1.aa.composition) {
 if (fig.pab1.aa.hydrophobicity) {
 	# Filter out too-short sequences?
 
-	hyd <- read.table("../../../base/data/hydrophobicity-scales.txt", header=T, sep='\t')
+	hyd <- read.table(pdir(base.dir, "data/hydrophobicity-scales.txt"), header=T, sep='\t')
 	rownames(hyd) <- hyd$aa
 	hyd[,'Hopp.Z'] <- as.numeric(scale(-hyd[,'Hopp.Woods']))
 	hyd[,'Hessa.phobic'] <- -hyd[,'Hessa']
 	hyd.scale <- 'Hopp.Z'
 
-	aas <- as.character(charlist('ACDEFGHIKLMNPQRSTVWY'))
 	faa <- p.0("f",aas)
 	f <- c(p.0("f",aas),p.0("n",aas))
 	#d <- list("P"=xp[,f], "dP"=xdp[,f], "disprot"=xdis[,f], "all"=xall[,f], "P.all"=xp.all[,f], "dP.all"=xdp.all[,f])
