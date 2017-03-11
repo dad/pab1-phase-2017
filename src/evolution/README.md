@@ -33,10 +33,11 @@ Several utility libraries and scripts are in the dad/base package.
 cd <your-dir> 
 git clone git@github.com:dad/base.git
 ```
-and add `<your-dir>/base/src` to your PYTHONPATH. `<your-dir>` should be the directory in which `pab1-phase-2017` is also contained, if you wish to use the Makefile.
+and add `<your-dir>/base/src` to your PYTHONPATH. `<your-dir>` should be the directory in which `pab1-phase-2017` is also contained, if you wish to use the makefile.
 
 Also required: 
 
+1. [Python](python.org) 3.5+
 1. [R] with the `taxize` package, for tree-building, `ggplot2` and `cowplot` for plotting, `data.table` and `Hmisc` for miscellaneous analysis functions.
 1. [MUSCLE](http://www.drive5.com/muscle/) sequence alignment software.
 
