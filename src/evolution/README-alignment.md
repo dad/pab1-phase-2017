@@ -31,5 +31,5 @@ and add `<your-dir>/base/src` to your PYTHONPATH. `<your-dir>` should be the dir
 
 Also required: 
 1. [R](http://r-project.org) with the `taxize` package, for tree-building.
-1. [MUSCLE][http://www.drive5.com/muscle/] alignment software 
+1. [MUSCLE](http://www.drive5.com/muscle/) alignment software 
 
