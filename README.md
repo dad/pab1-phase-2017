@@ -4,7 +4,7 @@ The scripts in this repository were used to create the figures in [Riback, Katan
 
 The `src` (source code) directory contains two directories:
 
-1. `evolution` contains alignment and sequence-analysis scripts, mostly [Python](http://python.org) and [R](http://r-project.org).
+1. `evolution` contains alignment and sequence-analysis scripts, mostly in [Python](http://python.org) and some [R](http://r-project.org).
 2. `biophysics` contains circular dichroism, dynamic light scattering, and small-angle X-ray scattering scripts in [Mathematica](http://mathematica.com) format.
 
 The `data` directory contains protein-sequence files used in the evolutionary analysis.
