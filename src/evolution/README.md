@@ -6,7 +6,7 @@ The makefile `build-alignment.mak` automates most of the steps.
 
 Outline of steps:
 
-## For poly(A)-binding protein alignment.
+## For poly(A)-binding protein sequences
 0. Begin with the poly(A)-binding protein sequences obtained from [SMART][http://smart.embl-heidelberg.de], in `../data/smart-pabp-orthologs.fa`
 1. Filter the sequences to eliminate fragments and sequences noncanonical amino acid
 2. Align the sequences
@@ -16,11 +16,11 @@ Outline of steps:
 6. Extract the aligned regions corresponding to the proline-rich P domain and everything else.
 7. Calculate residue frequencies in these regions.
 
-## For DisProt
-Calculate residue frequencies in regions/proteins included in data/disprot-6.02.fasta. A command to do this is included in `build-alignment.mak`.
+## For DisProt sequences
+Calculate residue frequencies in regions/proteins included in `data/disprot-6.02.fasta`. A command to do this is included in `build-alignment.mak`.
 
 ## For the yeast proteome
-Use the frequencies already calculated in data/scer-proteome-aa-freqs.txt
+Use the frequencies already calculated in `data/scer-proteome-aa-freqs.txt`. 
 
 ## Making figures
 All figures are made using the `figures-pabp-evol.R` [R] script using data either provided in the repository or calculated as outlined above and shown explicitly in `build-alignment.mak`.
@@ -28,7 +28,7 @@ All figures are made using the `figures-pabp-evol.R` [R] script using data eithe
 
 # Required packages
 
-Several utility libraries and scripts are in the dad/base package.
+Several utility libraries and scripts are in the `dad/base` package.
 ```
 cd <your-dir> 
 git clone git@github.com:dad/base.git
